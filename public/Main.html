@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>My Library</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script>
+        $(function() {
+                $.ajax({
+                    url: '/Library',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        $.each(data, function(index, item) {
+                            $('#bookList').append('<li id='+ index +'>'+item.Title+'</li>')
+                        })
+                    },
+                    error: function(data) {
+                        $('#message').append(data, function() {
+                            $('#message').fadeOut('slow');
+                        });
+                    }
+                });
+
+        });
+    </script>
+</head>
+<body>
+    <header id="libraryHeader">
+        <h1>My Library</h1>
+        <nav id="menuNav"></nav>
+    </header>
+    <div id="main">
+        <article id="article">
+        <div id="books">
+            <label id="message"></label>
+            <ul id="bookList">
+
+            </ul>
+        </div>
+        </article>
+
+    </div>
+    <footer id="libraryFooter">
+        <section id="footerSection"></section>
+    </footer>
+</body>
+</html>
