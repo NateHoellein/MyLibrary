@@ -42,6 +42,13 @@ app.get('/library', function(req, res){
     })
 })
 
+app.get('/library/loanedOut', function(req, res){
+    library.loanedOut(function(response){
+        console.log(response);
+        (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
+    })
+})
+
 app.post('/add', function(req, res){
     var newBook = req.body;
     console.log(req.body);

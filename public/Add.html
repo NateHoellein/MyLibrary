@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>My Library - Add a book</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script>
     $(function() {
@@ -36,30 +37,35 @@
 </head>
 <body>
 <header id="libraryHeader">
-    <nav id="menuNav"></nav>
+    <h1>My Library</h1>
+    <nav id="menuNav">
+        <ul class="navList">
+            <li>Home</li>
+            <li>Add</li>
+            <li>Search</li>
+        </ul>
+    </nav>
 </header>
 <div id="main">
     <article id="article">
         <fieldset>
-            <label for="title" id="titlelabel">Title</label>
-            <input type="text" id="title" />
-            <label for="author" id="authortitle">Author</label>
-            <input type="text" id="author" />
-            <label for="isbn" id="isbnlabel">ISBN</label>
-            <input type="text" id="isbn" />
-            <label for="subject" id="subjectlabel">Subject</label>
-            <input type="text" id="subject" />
-            <label for="location" id="locationlabel">Location</label>
-            <input type="text" id="location" />
-            <label for="loanedOut" id="loanedlabel">Location</label>
-            <input type="checkbox" id="loanedOut" />
-            <button type="button" id="addBook">Add book</button>
-            <label id="message"></label>
+            <ul class="bookEntry">
+                <li><label class="bookEntry" for="title" id="titlelabel">Title</label><input type="text" id="title" /></li>
+                <li><label class="bookEntry" for="author" id="authortitle">Author</label><input type="text" id="author" /></li>
+                <li><label class="bookEntry" for="isbn" id="isbnlabel">ISBN</label><input type="text" id="isbn" /></li>
+                <li><label class="bookEntry" for="subject" id="subjectlabel">Subject</label><input type="text" id="subject" /></li>
+                <li><label class="bookEntry" for="location" id="locationlabel">Location</label><input type="text" id="location" /></li>
+                <li><label class="bookEntry" for="loanedOut" id="loanedlabel">Loaned Out?</label><input type="checkbox" id="loanedOut" /></li>
+                <li><button type="button" id="addBook">Add book</button></li>
+                <li><label id="message"></label>
+            </ul>
         </fieldset>
     </article>
 </div>
 <footer id="libraryFooter">
-    <section id="footerSection"></section>
+    <section id="footerSection">
+        <h6>Copyright 2012 RiDecCo</h6>
+    </section>
 </footer>
 </body>
 </html>

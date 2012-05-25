@@ -8,12 +8,12 @@
     <script>
         $(function() {
                 $.ajax({
-                    url: '/Library',
+                    url: '/Library/LoanedOut',
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
                         $.each(data, function(index, item) {
-                            $('#bookList').append('<li id='+ index +'>'+item.Title+'</li>')
+                            $('#bookList').append('<li class="listBooks" id='+ index +'>'+item.Title+'</li>')
                         })
                     },
                     error: function(data) {
@@ -29,10 +29,18 @@
 <body>
     <header id="libraryHeader">
         <h1>My Library</h1>
-        <nav id="menuNav"></nav>
+        <nav id="menuNav">
+            <ul>
+                <li>Home</li>
+                <li>Add</li>
+                <li>Search</li>
+            </ul>
+        </nav>
     </header>
     <div id="main">
+        <section>
         <article id="article">
+        <p class="bookList">Books currently loaned out:</p>
         <div id="books">
             <label id="message"></label>
             <ul id="bookList">
@@ -40,10 +48,12 @@
             </ul>
         </div>
         </article>
-
+        </section>
     </div>
     <footer id="libraryFooter">
-        <section id="footerSection"></section>
+        <section id="footerSection">
+            <h6>Copyright 2012 RiDecCo</h6>
+        </section>
     </footer>
 </body>
 </html>
