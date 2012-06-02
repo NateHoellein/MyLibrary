@@ -18,20 +18,28 @@
                     ISBN: $('#isbn').val(),
                     Subject: $('#subject').val(),
                     Location: $('#location').val(),
-                    LoanedOut: ($('#loanedOut').val() === "on")
+                    LoanedOut: $('#loanedOut').is(':checked')
                 },
                 success: function(data) {
                     $('#mesage').append(data, function() {
                         $('#message').fadeOut('slow');
                     });
                 },
-                error: function(data) {
-                    $('#message').append(data, function() {
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
                         $('#message').fadeOut('slow');
                     });
                 }
             });
         });
+
+        $('input').focus(function() {
+            $(this).parent().addClass("singleEntry").children("div").toggle();
+        });
+
+        $('input').blur(function() {
+            $(this).parent().removeClass("singleEntry").children("div").toggle();
+        })
     });
     </script>
 </head>
@@ -49,16 +57,28 @@
 <div id="main">
     <article id="article">
         <fieldset>
-            <ul class="bookEntry">
-                <li><label class="bookEntry" for="title" id="titlelabel">Title</label><input type="text" id="title" /></li>
-                <li><label class="bookEntry" for="author" id="authortitle">Author</label><input type="text" id="author" /></li>
-                <li><label class="bookEntry" for="isbn" id="isbnlabel">ISBN</label><input type="text" id="isbn" /></li>
-                <li><label class="bookEntry" for="subject" id="subjectlabel">Subject</label><input type="text" id="subject" /></li>
-                <li><label class="bookEntry" for="location" id="locationlabel">Location</label><input type="text" id="location" /></li>
-                <li><label class="bookEntry" for="loanedOut" id="loanedlabel">Loaned Out?</label><input type="checkbox" id="loanedOut" /></li>
-                <li><button type="button" id="addBook">Add book</button></li>
-                <li><label id="message"></label>
-            </ul>
+
+            <div >
+                <label for="title" id="titlelabel">Title</label><input type="text" id="title" />
+            </div>
+            <div>
+                <label  for="author" id="authortitle">Author</label><input type="text" id="author" />
+            </div>
+            <div>
+                <label  for="isbn" id="isbnlabel">ISBN</label><input type="text" id="isbn" />
+            </div>
+            <div>
+                <label  for="subject" id="subjectlabel">Subject</label><input type="text" id="subject" />
+            </div>
+            <div>
+                <label  for="location" id="locationlabel">Location</label><input type="text" id="location" />
+            </div>
+            <div>
+                <label  for="loanedOut" id="loanedlabel">Loaned Out?</label><input type="checkbox" id="loanedOut" />
+            </div>
+            <button type="button" id="addBook">Add book</button></li>
+        <label id="message"></label>
+
         </fieldset>
     </article>
 </div>

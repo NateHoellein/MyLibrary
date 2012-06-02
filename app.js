@@ -35,23 +35,32 @@ app.get('/add', function(req, res) {
     res.sendfile(__dirname + '/public/Add.html');
 });
 
+app.get('/search', function(req, res){
+    res.sendfile(__dirname + '/public/Search.html')
+});
+
 app.get('/library', function(req, res){
     library.all(function(response){
-        console.log(response);
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
 })
 
 app.get('/library/loanedOut', function(req, res){
     library.loanedOut(function(response){
-        console.log(response);
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
 })
 
+app.post('/library/search',function(req, res){
+    var character = req.body.character;
+    library.search(character, function(response) {
+        console.log(response.Books);
+        (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
+    })
+});
+
 app.post('/add', function(req, res){
     var newBook = req.body;
-    console.log(req.body);
     library.add(newBook, function(response){
         (response.Status === 0) ? res.json("OK", 200) : res.json(response.Message, 409);
     })

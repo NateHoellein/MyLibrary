@@ -1,6 +1,8 @@
 body {
   padding: 2px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  width: 500px;
+  margin: 0 auto;
 }
 
 a {
@@ -19,27 +21,44 @@ ul li {
     padding: 2px;
 }
 
+li.listBooks {
+    text-align: center;
+}
+
 li:nth-child(odd) .listBooks {
     background-color: #d2fffe;
     border: 1px solid #000;
 }
 
-ul .bookEntry {
+fieldset ul {
     list-style: none;
     margin: 2px;
     border: 1px, solid, #ccc;
     padding: 5px;
     float: left;
-    width: 44%
+    width: 100%;
+    text-align: left;
 }
 
-ul li .bookEntry {
+div.singleEntry {
+    background: #aaaaaa;
+}
+
+fieldset {
+    text-align: center;
+}
+fieldset ul li {
     margin-bottom: 5px;
     padding: 2px;
 }
 
-label .bookEntry {
-    padding-right: 40px;
+fieldset label  {
+    width: 100px;
+    float: left;
+}
+
+fieldset input {
+    width: 300px;
 }
 
 nav ul li {
@@ -50,9 +69,12 @@ header {
     height: 100px;
     border-bottom: #6633ff;
     border-bottom-width: 2px;
-    background: #4422cc;
+    background: #bbbbbb;
 }
 
+header ul {
+    text-align: right;
+}
 article {
     width: 100%;
 }
