@@ -9,20 +9,26 @@
         $(function() {
             $('#search').bind('keyup', function(e){
 
+                var character = $('#search').val();
 
-                if(e !== 13) {
+                if(character === "") {
                     $('#results li').remove();
+                }
+
+                if(e !== 13 && (character !== "")) {
+
                     $.ajax({
                         url: '/library/search',
                         type: 'POST',
                         dataType: 'json',
                         data: {
-                            character: $('#search').val()
+                            character: character
                         },
                         success: function(data) {
                             console.log(data);
                             $.each(data, function(index, item) {
-                                $('#results').append('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
+
+                                $('#results').html('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
                             })
                         },
                         error: function(data) {
