@@ -71,7 +71,7 @@ app.post('/add', function(req, res){
 app.post('/library/isbn', function(req, res){
     var isbn = req.body.isbn;
     isbnDb.bookInfo(isbn, function(bookInfo){
-        console.log("BookInfo: " + bookInfo);
+        console.log("BookInfo: " + bookInfo.Title);
         (bookInfo.Status === 0) ? res.json(bookInfo, 200) : res.json(response.Message, 409);
     });
 });

@@ -25,11 +25,13 @@
                             character: character
                         },
                         success: function(data) {
-                            console.log(data);
-                            $.each(data, function(index, item) {
-
-                                $('#results').html('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
-                            })
+                            if(data.length !== 0){
+                                $.each(data, function(index, item) {
+                                    $('#results').html('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
+                                })
+                            } else {
+                                $('#results li').remove();
+                            }
                         },
                         error: function(data) {
                             $('#message').append(data, function() {
