@@ -56,7 +56,6 @@ app.get('/library/loanedOut', function(req, res){
 app.post('/library/search',function(req, res){
     var character = req.body.character;
     library.search(character, function(response) {
-        console.log(response.Books);
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
 });
@@ -71,7 +70,6 @@ app.post('/add', function(req, res){
 app.post('/library/isbn', function(req, res){
     var isbn = req.body.isbn;
     isbnDb.bookInfo(isbn, function(bookInfo){
-        console.log("BookInfo: " + bookInfo.Title);
         (bookInfo.Status === 0) ? res.json(bookInfo, 200) : res.json(response.Message, 409);
     });
 });

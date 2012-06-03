@@ -7,13 +7,14 @@
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script>
         $(function() {
+            $('#search').focus();
             $('#search').bind('keyup', function(e){
 
                 var character = $('#search').val();
 
-                if(character === "") {
-                    $('#results li').remove();
-                }
+
+                $('#results li').remove();
+
 
                 if(e !== 13 && (character !== "")) {
 
@@ -27,7 +28,7 @@
                         success: function(data) {
                             if(data.length !== 0){
                                 $.each(data, function(index, item) {
-                                    $('#results').html('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
+                                    $('#results').append('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
                                 })
                             } else {
                                 $('#results li').remove();
@@ -60,7 +61,7 @@
         <article id="article">
             <fieldset>
                 <div >
-                    <label for="search" id="titlelabel">Search: </label><input type="text" id="search" />
+                    <input type="text" id="search" placeholder="start typing for title or author"/>
                 </div>
                 <div>
                     <ul id="results">

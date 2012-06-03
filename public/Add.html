@@ -21,13 +21,24 @@
                     LoanedOut: $('#loanedOut').is(':checked')
                 },
                 success: function(data) {
-                    $('#mesage').append(data, function() {
-                        $('#message').fadeOut('slow');
+                    $('#message').text(data);
+                    $('#message').fadeOut(3000, function(){
+                        $('#title').val("");
+                        $('#author').val("");
+                        $('#isbn').val("");
+                        $('#subject').val("");
+                        $('#location').val("");
                     });
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
-                        $('#message').fadeOut('slow');
+                        $('#message').fadeOut(3000, function(){
+                            $('#title').val("");
+                            $('#author').val("");
+                            $('#isbn').val("");
+                            $('#subject').val("");
+                            $('#location').val("");
+                        });
                     });
                 }
             });
@@ -69,9 +80,9 @@
     <h1>My Library</h1>
     <nav id="menuNav">
         <ul class="navList">
-            <li>Home</li>
-            <li>Add</li>
-            <li>Search</li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/add">Add</a></li>
+            <li><a href="/search">Search</a></li>
         </ul>
     </nav>
 </header>
@@ -95,11 +106,14 @@
                 <input type="text" id="location" placeholder="Location"/>
             </div>
             <div>
-                <input type="checkbox" id="loanedOut"/><label for="loanedOut">Checked Out?</label>
+                <input type="checkbox" id="loanedOut"/><label for="loanedOut">Loaned Out?</label>
             </div>
-            <button type="button" id="addBook">Add book</button></li>
-        <label id="message"></label>
-
+            <div>
+                <button type="button" id="addBook">Add book</button></li>
+            </div>
+            <div>
+                <label id="message"></label>
+            </div>
         </fieldset>
     </article>
 </div>
