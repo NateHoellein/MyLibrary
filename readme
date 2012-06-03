@@ -2,3 +2,4 @@ MyLibrary is a Web app hosted on node.js using Express.js.  It's an app to track
 to people.  Plus it's practice for html5, css3, mongodb, and javascript.
 
 6/1 - Fixed some of the css for adding a book.  Added search page.
+6/2 - Added functionality to pull title and author from isbndb.com and populate the add form.
