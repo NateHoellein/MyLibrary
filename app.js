@@ -4,6 +4,8 @@ var express = require('express')
   , mongoose = require('mongoose')
   , library = require('./lib/mylibrary')
   , response = require('./lib/bookDefs')
+  , isbnDb = require('./lib/isbndb')
+
 
 var app = module.exports = express.createServer();
 
@@ -64,7 +66,15 @@ app.post('/add', function(req, res){
     library.add(newBook, function(response){
         (response.Status === 0) ? res.json("OK", 200) : res.json(response.Message, 409);
     })
-
 });
+
+app.post('/library/isbn', function(req, res){
+    var isbn = req.body.isbn;
+    isbnDb.bookInfo(isbn, function(bookInfo){
+        console.log("BookInfo: " + bookInfo);
+        (bookInfo.Status === 0) ? res.json(bookInfo, 200) : res.json(response.Message, 409);
+    });
+});
+
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

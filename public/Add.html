@@ -33,6 +33,27 @@
             });
         });
 
+        $('#lookupBook').click(function(){
+            var isbn = $('#isbn').val();
+            $.ajax({
+                url: '/library/isbn',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    isbn: isbn
+                },
+                success: function(data) {
+                    $('#title').val(data.Title);
+                    $('#author').val(data.Author);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
+                        $('#message').fadeOut('slow');
+                    });
+                }
+            });
+        });
+
         $('input').focus(function() {
             $(this).parent().addClass("singleEntry").children("div").toggle();
         });
@@ -59,22 +80,22 @@
         <fieldset>
 
             <div >
-                <label for="title" id="titlelabel">Title</label><input type="text" id="title" />
+                <input type="text" id="title" placeholder="Title" />
             </div>
             <div>
-                <label  for="author" id="authortitle">Author</label><input type="text" id="author" />
+                <input type="text" id="author" placeholder="Author" />
             </div>
             <div>
-                <label  for="isbn" id="isbnlabel">ISBN</label><input type="text" id="isbn" />
+                <input type="text" id="isbn" placeholder="ISBN" /><button type="button" id="lookupBook">?</button>
             </div>
             <div>
-                <label  for="subject" id="subjectlabel">Subject</label><input type="text" id="subject" />
+                <input type="text" id="subject" placeholder="Subject" />
             </div>
             <div>
-                <label  for="location" id="locationlabel">Location</label><input type="text" id="location" />
+                <input type="text" id="location" placeholder="Location"/>
             </div>
             <div>
-                <label  for="loanedOut" id="loanedlabel">Loaned Out?</label><input type="checkbox" id="loanedOut" />
+                <input type="checkbox" id="loanedOut"/><label for="loanedOut">Checked Out?</label>
             </div>
             <button type="button" id="addBook">Add book</button></li>
         <label id="message"></label>
