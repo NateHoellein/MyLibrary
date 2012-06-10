@@ -11,10 +11,9 @@
             $('#search').focus();
 
             var template = "<% _.each(books, function(item) { %> \ " +
-                            "<li> <%=item.Title%> by <%=item.Author%> </li> <% }); %>";
-
-            //                            <% var checkbox = (loanedOut) ? $('<input type='checkbox' id='<%=title%>'> : '' %> \
-            //<% var loanedOut = item.LoanedOut %> \
+                            "<% var loanedOut = (item.LoanedOut) ? 'checked' : '' %> " +
+                            "<li> <%=item.Title%> by <%=item.Author%> <input type=checkbox <%=loanedOut%>/></li> " +
+                            "<% }); %>";
 
             $('#search').bind('keyup', function(e){
 
@@ -25,7 +24,6 @@
                 if(character === ""){
                     $('#results li').remove();
                 }
-
 
                 if((e.keyCode !== 13) && (character !== "") && (e.keyCode !== 16) && (e.keyCode !== 91)) {
 
@@ -38,14 +36,7 @@
                         },
                         success: function(data) {
                             if(data.length !== 0){
-                                var list = _.template(template, {books: data});
-                                $('#results').html(list);
-                            //      $.each(data, function(index, item) {
-//                                    var checked = item.LoanedOut;
-//                                    $('#results').append('<li class="listBooks" id='+ index +'>'+
-//                                            item.Title+' by '+item.Author+'<input type="checkbox" id="'+ item.Title +'"/></li>');
-//                                    $(':checkbox').attr('checked',checked);
-//                                })
+                                $('#results').html(_.template(template, {books: data}));
                             } else {
                                 $('#results li').remove();
                             }
