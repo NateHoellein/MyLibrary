@@ -8,9 +8,11 @@
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script>
         $(function() {
+            var nonAsciiKeys = [13, 16, 91, 8];
+
             $('#search').focus();
 
-            var template = "<% _.each(books, function(item) { %> \ " +
+            var template = "<% _.each(books, function(item) { %>" +
                             "<% var loanedOut = (item.LoanedOut) ? 'checked' : '' %> " +
                             "<li> <%=item.Title%> by <%=item.Author%> <input type=checkbox <%=loanedOut%>/></li> " +
                             "<% }); %>";
@@ -25,7 +27,13 @@
                     $('#results li').remove();
                 }
 
-                if((e.keyCode !== 13) && (character !== "") && (e.keyCode !== 16) && (e.keyCode !== 91)) {
+                function AsciiKey(keyCode) {
+                    _.any(nonAsciiKeys,function(keyCode, k) {
+                        return keyCode === k;
+                    });
+                }
+
+                if(!AsciiKey(e.keyCode) && character !== "") {
 
                     $.ajax({
                         url: '/library/search',
