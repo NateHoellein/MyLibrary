@@ -74,5 +74,17 @@ app.post('/library/isbn', function(req, res){
     });
 });
 
+app.post('/library/update', function(req, res) {
+    var book = {
+        Title: req.body.Title,
+        Location: req.body.Location,
+        LoanedOut: req.body.LoanedOut
+    };
+    console.log(book);
+    library.update(book, function(response) {
+        console.log(response);
+        (response.Status === 0) ? res.json("OK", 200) : res.json(response.Message, 409);
+    })
+})
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);

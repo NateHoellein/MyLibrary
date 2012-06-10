@@ -53,7 +53,7 @@
                     $('#title').val(data.Title);
                     $('#author').val(data.Author);
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
+                error: function() {
                     $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
                         $('#message').fadeOut('slow');
                     });

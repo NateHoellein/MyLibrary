@@ -8,20 +8,78 @@
     <script type="text/javascript" src="js/underscore-min.js"></script>
     <script>
         $(function() {
+            // TODO need to add additional non ascii keys
             var nonAsciiKeys = [13, 16, 91, 8];
 
             $('#search').focus();
 
             var template = "<% _.each(books, function(item) { %>" +
                             "<% var loanedOut = (item.LoanedOut) ? 'checked' : '' %> " +
-                            "<li> <%=item.Title%> by <%=item.Author%> <input type=checkbox <%=loanedOut%>/></li> " +
+                            "<li> <%=item.Title%> by <%=item.Author%> <input type=checkbox id='<%=item.Title%>' <%=loanedOut%>/></li> " +
                             "<% }); %>";
+
+            $(':checkbox').live('click', function() {
+                var selected = $(this);
+                if($(selected).attr('checked')) {
+                    $('#loanedOutDialog').css('visibility','visible');
+                    $('#title').html($(this).attr('id'));
+                } else {
+                    $.ajax({
+                        url: '/library/update',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            Title: $(this).attr('id'),
+                            Location: "",
+                            LoanedOut: false
+                        },
+                        success: function(data) {
+                            $('#loanedOutDialog').css('visibility','hidden');
+                            $('#title').text();
+                            $('#location').val();
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            $('#loanedOutDialog').css('visibility','hidden');
+                            $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
+                                $('#message').fadeOut('slow');
+                            });
+                        }
+                    });
+                }
+
+            });
+
+            $('#updateLocation').click(function() {
+                $.ajax({
+                    url: '/library/update',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        Title: $('#title').text(),
+                        Location: $('#location').val(),
+                        LoanedOut: true
+                    },
+                    success: function(data) {
+                        $('#loanedOutDialog').css('visibility','hidden');
+                        $('#title').text();
+                        $('#location').val();
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#loanedOutDialog').css('visibility','hidden');
+                        $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
+                            $('#message').fadeOut('slow');
+                        });
+                    }
+                });
+            });
+
+            $('#cancel').click(function() {
+                $('#loanedOutDialog').css('visibility','hidden');
+            })
 
             $('#search').bind('keyup', function(e){
 
                 var character = $('#search').val();
-
-                console.log(e.keyCode);
 
                 if(character === ""){
                     $('#results li').remove();
@@ -89,6 +147,12 @@
             </fieldset>
         </article>
     </section>
+</div>
+<div id="loanedOutDialog" class='dialog'>
+    <label id="title" ></label>
+    <input type="text" id="location" placeholder="Who has this book?"/>
+    <button type="button" id="updateLocation">Update</button></li>
+    <button type="button" id="cancel">Cancel</button></li>
 </div>
 <footer id="libraryFooter">
     <section id="footerSection">
