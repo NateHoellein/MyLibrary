@@ -3,3 +3,4 @@ to people.  Plus it's practice for html5, css3, mongodb, and javascript.
 
 6/1 - Fixed some of the css for adding a book.  Added search page.
 6/2 - Added functionality to pull title and author from isbndb.com and populate the add form.
+6/10 - Updated search page to check/uncheck the loaned out field
