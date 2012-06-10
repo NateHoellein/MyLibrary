@@ -7,6 +7,16 @@
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script>
     $(function() {
+        function clearFields() {
+            $('#message').fadeOut(3000, function () {
+                $('#title').val("");
+                $('#author').val("");
+                $('#isbn').val("");
+                $('#subject').val("");
+                $('#location').val("");
+            });
+        }
+
         $('#addBook').click(function() {
             $.ajax({
                 url: '/add',
@@ -22,24 +32,10 @@
                 },
                 success: function(data) {
                     $('#message').text(data);
-                    $('#message').fadeOut(3000, function(){
-                        $('#title').val("");
-                        $('#author').val("");
-                        $('#isbn').val("");
-                        $('#subject').val("");
-                        $('#location').val("");
-                    });
+                    clearFields();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
-                        $('#message').fadeOut(3000, function(){
-                            $('#title').val("");
-                            $('#author').val("");
-                            $('#isbn').val("");
-                            $('#subject').val("");
-                            $('#location').val("");
-                        });
-                    });
+                    $('#message').append(errorThrown + " " + jqXHR.responseText, clearFields());
                 }
             });
         });

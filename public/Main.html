@@ -12,9 +12,14 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        $.each(data, function(index, item) {
-                            $('#bookList').append('<li id='+ index +'>'+item.Title+'</li>')
-                        })
+                        if(data.length === 0) {
+                            $('#loanedout').text("No books currently loaned out.");
+                        } else {
+
+                            $.each(data, function(index, item) {
+                                $('#bookList').append('<li id='+ index +'>'+item.Title+'</li>')
+                            })
+                        }
                     },
                     error: function(data) {
                         $('#message').append(data, function() {
@@ -40,7 +45,7 @@
     <div id="main">
         <section>
         <article id="article">
-        <p class="bookList">Books currently loaned out:</p>
+        <p id="loanedout" class="bookList">Books currently loaned out:</p>
         <div id="books">
             <label id="message"></label>
             <ul id="bookList">

@@ -5,18 +5,29 @@
     <title>My Library</title>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
     <script>
         $(function() {
             $('#search').focus();
+
+            var template = "<% _.each(books, function(item) { %> \ " +
+                            "<li> <%=item.Title%> by <%=item.Author%> </li> <% }); %>";
+
+            //                            <% var checkbox = (loanedOut) ? $('<input type='checkbox' id='<%=title%>'> : '' %> \
+            //<% var loanedOut = item.LoanedOut %> \
+
             $('#search').bind('keyup', function(e){
 
                 var character = $('#search').val();
 
+                console.log(e.keyCode);
 
-                $('#results li').remove();
+                if(character === ""){
+                    $('#results li').remove();
+                }
 
 
-                if(e !== 13 && (character !== "")) {
+                if((e.keyCode !== 13) && (character !== "") && (e.keyCode !== 16) && (e.keyCode !== 91)) {
 
                     $.ajax({
                         url: '/library/search',
@@ -27,9 +38,14 @@
                         },
                         success: function(data) {
                             if(data.length !== 0){
-                                $.each(data, function(index, item) {
-                                    $('#results').append('<li class="listBooks" id='+ index +'>'+item.Title+' by '+item.Author+'</li>')
-                                })
+                                var list = _.template(template, {books: data});
+                                $('#results').html(list);
+                            //      $.each(data, function(index, item) {
+//                                    var checked = item.LoanedOut;
+//                                    $('#results').append('<li class="listBooks" id='+ index +'>'+
+//                                            item.Title+' by '+item.Author+'<input type="checkbox" id="'+ item.Title +'"/></li>');
+//                                    $(':checkbox').attr('checked',checked);
+//                                })
                             } else {
                                 $('#results li').remove();
                             }

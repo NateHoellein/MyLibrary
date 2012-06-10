@@ -62,6 +62,11 @@ fieldset input {
     width: 300px;
 }
 
+fieldset input[type="checkbox"] {
+    padding: 2px;
+    width: 20px;
+}
+
 section fieldset {
     border:none;
 }
