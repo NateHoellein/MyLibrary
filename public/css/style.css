@@ -55,9 +55,13 @@ div.singleEntry {
 }
 
 fieldset {
-    -webkit-border-radius: 10px;
     text-align: center;
 }
+
+div.addBookLayout {
+    display: right;
+}
+
 fieldset ul li {
     margin-bottom: 5px;
     padding: 2px;
