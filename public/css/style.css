@@ -85,15 +85,14 @@ nav ul li {
 }
 
 section {
-    -webkit-border-radius: 10px;
     border: 1px solid #6285C7;
 }
 header {
     height: 100px;
-    border-bottom: #6633ff;
-    border-bottom-width: 2px;
     background: #6285C7;
-    -webkit-border-radius: 10px;
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+
     color: #D0E8F4;
 }
 
@@ -111,7 +110,8 @@ footer {
     clear: both;
     padding: 2px;
     text-align: center;
-    -webkit-border-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
     color: #D0E8F4
 }
 
