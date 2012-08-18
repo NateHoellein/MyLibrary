@@ -20,10 +20,15 @@
 
             $(':checkbox').live('click', function() {
                 var selected = $(this);
+
                 if($(selected).attr('checked')) {
+                    $('#cancel').bind('click', {source: selected}, function(event) {
+                        $(event.data.source).attr('checked', false);
+                    });
                     $('#loanedOutDialog').css('visibility','visible');
                     $('#title').html($(this).attr('id'));
                 } else {
+
                     $.ajax({
                         url: '/library/update',
                         type: 'POST',
@@ -75,6 +80,7 @@
 
             $('#cancel').click(function() {
                 $('#loanedOutDialog').css('visibility','hidden');
+
             })
 
             $('#search').bind('keyup', function(e){
@@ -148,11 +154,14 @@
         </article>
     </section>
 </div>
+<div>
 <div id="loanedOutDialog" class='dialog'>
+    <article>
     <label id="title" ></label>
     <input type="text" id="location" placeholder="Who has this book?"/>
     <button type="button" id="updateLocation">Update</button></li>
     <button type="button" id="cancel">Cancel</button></li>
+    </article>
 </div>
 <footer id="libraryFooter">
     <section id="footerSection">
