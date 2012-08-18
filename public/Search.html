@@ -25,7 +25,10 @@
                     $('#cancel').bind('click', {source: selected}, function(event) {
                         $(event.data.source).attr('checked', false);
                     });
-                    $('#loanedOutDialog').css('visibility','visible');
+                    $('#loanedOutDialog').fadeIn('slow', function() {
+                        $('#loanedOutDialog').css('visibility','visible');
+                    })
+
                     $('#title').html($(this).attr('id'));
                 } else {
 
@@ -156,9 +159,9 @@
 </div>
 <div>
 <div id="loanedOutDialog" class='dialog'>
-    <article>
+    <article class='dialog'>
     <label id="title" ></label>
-    <input type="text" id="location" placeholder="Who has this book?"/>
+    <input type="text" id="location" placeholder="Who has this book?"/><br/>
     <button type="button" id="updateLocation">Update</button></li>
     <button type="button" id="cancel">Cancel</button></li>
     </article>

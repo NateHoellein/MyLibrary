@@ -126,25 +126,33 @@ article p {
     text-align: center;
 }
 
-.dialog {
+div.dialog {
     width:100%;
     height:100%;
 
-    position: absolute; left:50%; top:50%; width:132;
+    position: absolute; top:50%; width:132;
 
-    filter:alpha(opacity=50);
-    -moz-opacity:0.5;
-    -khtml-opacity: 0.5;
-    opacity: 0.5;
-    background:#000;
+    background: transparent;
 
     top:0; left:0;
     z-index:3000;
     visibility: hidden;
 }
 
+article.dialog{
+    position: absolute; left: 25%; top:50%;
+    background: #6285c7;
+    width: 50%;
+    heigt: 50%;
+}
+
+article.dialog * {
+    -moz-opacity:100;
+    opacity: 1;
+}
+
 label {
-    color: #44DDFF;
+    color: #D0E8F4;
 }
 
 
