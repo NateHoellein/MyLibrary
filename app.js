@@ -1,14 +1,13 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , mongoose = require('mongoose')
   , library = require('./lib/mylibrary')
   , response = require('./lib/bookDefs')
   , isbnDb = require('./lib/isbndb')
-
+  , check = require('validator').check
+  , sanitize = require('validator').sanitize
 
 var app = module.exports = express.createServer();
-
 // Configuration
 
 app.configure(function(){
@@ -18,11 +17,12 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  mongoose.connect('mongodb://localhost/book_test');
+  library.init('localhost/book_test')
 });
 
 app.configure('production', function(){
@@ -48,6 +48,8 @@ app.get('/library', function(req, res){
 })
 
 app.get('/library/loanedOut', function(req, res){
+    console.log('loanedout called');
+
     library.loanedOut(function(response){
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
@@ -55,7 +57,8 @@ app.get('/library/loanedOut', function(req, res){
 
 app.post('/library/search',function(req, res){
     var character = req.body.character;
-    library.search(character, function(response) {
+    var cleanCharacter = sanitize(character).xss();
+    library.search(cleanCharacter, function(response) {
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
 });
@@ -69,7 +72,8 @@ app.post('/add', function(req, res){
 
 app.post('/library/isbn', function(req, res){
     var isbn = req.body.isbn;
-    isbnDb.bookInfo(isbn, function(bookInfo){
+    var cleanIsbn = sanitize(isbn).xss();
+    isbnDb.bookInfo(cleanIsbn, function(bookInfo){
         (bookInfo.Status === 0) ? res.json(bookInfo, 200) : res.json(response.Message, 409);
     });
 });

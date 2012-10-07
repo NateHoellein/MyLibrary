@@ -12,6 +12,7 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
+                        console.log(data);
                         if(data.length === 0) {
                             $('#loanedout').text("No books currently loaned out.");
                         } else {
