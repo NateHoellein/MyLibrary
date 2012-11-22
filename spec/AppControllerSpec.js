@@ -190,4 +190,41 @@ describe("AppController", function () {
         });
 
     });
+
+    it('scrubs the data for searching before calling the db', function(done){
+        var book = {
+            Title:"my new [removed]alert&#40;'Hi'&#41;[removed] book",
+            Subject:"subject about $ something",
+            Author:"Bill Jones",
+            ISBN:"1234567890",
+            Location:"Nate<script type='a'>function(){}</script>",
+            LoanedOut:"true"
+        };
+
+        var testObject = {
+            search:function (c, callback) {
+
+                c.should.equal('n[removed][removed]');
+
+                var message = {
+                    status:0,
+                    message:"OK",
+                    books:[book]
+                }
+                callback(message);
+            }
+        }
+
+        var controller = appController(testObject);
+
+        var body = {
+            character: 'n<script></script>'
+        }
+        controller.search(body,function (message) {
+            message.status.should.equal(0);
+            message.message.should.equal("OK");
+            message.books.should.eql([book]);
+            done();
+        });
+    });
 });

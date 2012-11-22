@@ -44,7 +44,7 @@ app.get('/search', function (req, res) {
 });
 
 app.get('/library', function (req, res) {
-    library.all(function (response) {
+    controller.all(function (response) {
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
 })
@@ -56,9 +56,7 @@ app.get('/library/loanedOut', function (req, res) {
 })
 
 app.post('/library/search', function (req, res) {
-    var character = req.body.character;
-    var cleanCharacter = sanitize(character).xss();
-    library.search(cleanCharacter, function (response) {
+    controller.search(req.body, function (response) {
         (response.Status === 0) ? res.json(response.Books, 200) : res.json(response.Message, 409);
     })
 });
