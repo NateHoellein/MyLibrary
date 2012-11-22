@@ -1,0 +1,2 @@
+Create an AppController to take input and interact with library and isbndb.
+Figure out how to override the library methods for testing.
