@@ -6,69 +6,74 @@
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
     <script>
-    $(function() {
-        function clearFields() {
-            $('#message').fadeOut(3000, function () {
-                $('#title').val("");
-                $('#author').val("");
-                $('#isbn').val("");
-                $('#subject').val("");
-                $('#location').val("");
+        $(function () {
+            function clearFields() {
+                $('#message').fadeOut(3000, function () {
+                    $('#title').val("");
+                    $('#author').val("");
+                    $('#isbn').val("");
+                    $('#subject').val("");
+                    $('#location').val("");
+                });
+            }
+
+            $('#addBook').click(function () {
+                $.ajax({
+                    url:'/add',
+                    type:'POST',
+                    dataType:'json',
+                    data:{
+                        Title:$('#title').val(),
+                        Author:$('#author').val(),
+                        ISBN:$('#isbn').val(),
+                        Subject:$('#subject').val(),
+                        Location:$('#location').val(),
+                        LoanedOut:$('#loanedOut').is(':checked')
+                    },
+                    success:function (data) {
+                        $('#message').text(data);
+                        clearFields();
+                    },
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        $('#message').append(errorThrown + " " + jqXHR.responseText, clearFields());
+                    }
+                });
             });
-        }
 
-        $('#addBook').click(function() {
-            $.ajax({
-                url: '/add',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    Title: $('#title').val(),
-                    Author: $('#author').val(),
-                    ISBN: $('#isbn').val(),
-                    Subject: $('#subject').val(),
-                    Location: $('#location').val(),
-                    LoanedOut: $('#loanedOut').is(':checked')
-                },
-                success: function(data) {
-                    $('#message').text(data);
-                    clearFields();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#message').append(errorThrown + " " + jqXHR.responseText, clearFields());
-                }
+            $('#lookupBook').click(function () {
+                var isbn = $('#isbn').val();
+                $.ajax({
+                    url:'/library/isbn',
+                    type:'POST',
+                    dataType:'json',
+                    data:{
+                        isbn:isbn
+                    },
+                    success:function (data) {
+                        console.log(data);
+                        if (data.Books.length === 0) {
+                            $('#message').append(data.Message).fadeOut('slow');
+                        } else {
+                            $('#title').val(data.Books[0].Title);
+                            $('#author').val(data.Books[0].Author);
+                        }
+                    },
+                    error:function () {
+                        $('#message').append(errorThrown + " " + jqXHR.responseText, function () {
+                            $('#message').fadeOut('slow');
+                        });
+                    }
+                });
             });
-        });
 
-        $('#lookupBook').click(function(){
-            var isbn = $('#isbn').val();
-            $.ajax({
-                url: '/library/isbn',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    isbn: isbn
-                },
-                success: function(data) {
-                    $('#title').val(data.Title);
-                    $('#author').val(data.Author);
-                },
-                error: function() {
-                    $('#message').append(errorThrown + " " + jqXHR.responseText, function() {
-                        $('#message').fadeOut('slow');
-                    });
-                }
+            $('input').focus(function () {
+                $(this).parent().addClass("singleEntry").children("div").toggle();
             });
-        });
 
-        $('input').focus(function() {
-            $(this).parent().addClass("singleEntry").children("div").toggle();
+            $('input').blur(function () {
+                $(this).parent().removeClass("singleEntry").children("div").toggle();
+            })
         });
-
-        $('input').blur(function() {
-            $(this).parent().removeClass("singleEntry").children("div").toggle();
-        })
-    });
     </script>
 </head>
 <body>
@@ -84,36 +89,38 @@
 </header>
 <div id="main">
     <section>
-    <article id="article">
-        <div id="addFieldset" class="addBookLayout">
-        <fieldset>
-            <div >
-                <input type="text" id="title" placeholder="Title" />
+        <article id="article">
+            <div id="addFieldset" class="addBookLayout">
+                <fieldset>
+                    <div>
+                        <input type="text" id="title" placeholder="Title"/>
+                    </div>
+                    <div>
+                        <input type="text" id="author" placeholder="Author"/>
+                    </div>
+                    <div>
+                        <input type="text" id="isbn" placeholder="ISBN"/>
+                        <button type="button" id="lookupBook">?</button>
+                    </div>
+                    <div>
+                        <input type="text" id="subject" placeholder="Subject"/>
+                    </div>
+                    <div>
+                        <input type="text" id="location" placeholder="Location"/>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="loanedOut"/><label for="loanedOut">Loaned Out?</label>
+                    </div>
+                    <div>
+                        <button type="button" id="addBook">Add book</button>
+                        </li>
+                    </div>
+                    <div>
+                        <label id="message"></label>
+                    </div>
+                </fieldset>
             </div>
-            <div>
-                <input type="text" id="author" placeholder="Author" />
-            </div>
-            <div>
-                <input type="text" id="isbn" placeholder="ISBN" /><button type="button" id="lookupBook">?</button>
-            </div>
-            <div>
-                <input type="text" id="subject" placeholder="Subject" />
-            </div>
-            <div>
-                <input type="text" id="location" placeholder="Location"/>
-            </div>
-            <div>
-                <input type="checkbox" id="loanedOut"/><label for="loanedOut">Loaned Out?</label>
-            </div>
-            <div>
-                <button type="button" id="addBook">Add book</button></li>
-            </div>
-            <div>
-                <label id="message"></label>
-            </div>
-        </fieldset>
-        </div>
-    </article>
+        </article>
     </section>
 </div>
 <footer id="libraryFooter">

@@ -4,6 +4,7 @@ var express = require('express')
     , response = require('./lib/bookDefs')
     , isbnDb = require('./lib/isbndb')
     , appController = require('./lib/AppController')
+    , isbnController = require('./lib/ISBNController')
     , check = require('validator').check
     , sanitize = require('validator').sanitize
     , controller;
@@ -25,6 +26,7 @@ app.configure('development', function () {
     app.use(express.errorHandler({ dumpExceptions:true, showStack:true }));
     library.init('localhost/book_test');
     controller = appController(library);
+    isbncontroller = isbnController(isbnDb);
 });
 
 app.configure('production', function () {
@@ -62,16 +64,13 @@ app.post('/library/search', function (req, res) {
 });
 
 app.post('/add', function (req, res) {
-
     controller.add(req.body, function (response) {
         (response.Status === 0) ? res.json("OK", 200) : res.json(response.Message, 409);
     })
 });
 
 app.post('/library/isbn', function (req, res) {
-    var isbn = req.body.isbn;
-    var cleanIsbn = sanitize(isbn).xss();
-    isbnDb.bookInfo(cleanIsbn, function (bookInfo) {
+    isbncontroller.bookInfo(req.body, function(bookInfo){
         (bookInfo.Status === 0) ? res.json(bookInfo, 200) : res.json(response.Message, 409);
     });
 });

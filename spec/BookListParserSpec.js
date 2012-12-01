@@ -17,10 +17,10 @@ describe('isbndb book response', function(){
 
 
         isbndbparser.parse(response, function(message){
-            message.status.should.equal(0);
-            message.message.should.equal("Found!");
-            message.books[0].Title.should.equal("Programming challenges: the programming contest training manual");
-            message.books[0].Author.should.equal("Steven S. Skiena, Miguel A. Revilla");
+            message.Status.should.equal(0);
+            message.Message.should.equal("Found!");
+            message.Books[0].Title.should.equal("Programming challenges: the programming contest training manual");
+            message.Books[0].Author.should.equal("Steven S. Skiena, Miguel A. Revilla");
 
             done();
         });
@@ -33,10 +33,24 @@ describe('isbndb book response', function(){
             </ISBNdb>";
 
         isbndbparser.parse(response, function(message){
-            message.status.should.equal(0);
-            message.message.should.equal("No books found");
-            message.books.length.should.equal(0);
+            message.Status.should.equal(0);
+            message.Message.should.equal("No books found");
+            message.Books.length.should.equal(0);
             done();
         });
     });
+
+    it('returns no result when unable to parse', function(done){
+
+        var response = "<ISBNdb server_time='2012-11-25T14:49:30Z'> \
+        <BookList total_results='0'";
+
+        isbndbparser.parse(response, function(message){
+            message.Status.should.equal(0);
+            message.Message.should.include("Aw, snap an error occurred parsing the response. ");
+            message.Books.length.should.equal(0);
+            done();
+        });
+    });
+
 });
